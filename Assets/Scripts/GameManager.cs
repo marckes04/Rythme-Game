@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,9 +12,21 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
+    public int currentScore;
+    public int scorePerNote = 100;
+
+    public int currentMultiplier = 1;
+    public int MultiplierTracker;
+    public int[] multiplierThresholds;
+
+    public Text scoreText;
+    public Text multiText;
+
     void Start()
     {
         instance = this;
+        scoreText.text = "Score: 0";
+        currentMultiplier = 1;
     }
 
     void Update()
@@ -36,10 +47,30 @@ public class GameManager : MonoBehaviour
     public void NoteHit()
     {
         Debug.Log("Hit on Time");
+
+        if (currentMultiplier - 1 < multiplierThresholds.Length)
+        { 
+             MultiplierTracker++;
+
+            if (multiplierThresholds[currentMultiplier - 1] <= MultiplierTracker)
+            {
+                 MultiplierTracker = 0;
+                currentMultiplier++;
+            }
+        }
+
+        multiText.text = "Multiplier: x" + currentMultiplier;
+
+        currentScore += scorePerNote *currentMultiplier;
+        scoreText.text = "Score: " + currentScore;
     }
 
     public void NoteMiss()
     {
         Debug.Log("Missed Note");
+        currentMultiplier = 1;
+        MultiplierTracker = 0;
+
+        multiText.text = "Multiplier: x" + currentMultiplier;
     }
 }

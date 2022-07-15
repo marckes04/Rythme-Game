@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BeatScroller : MonoBehaviour
@@ -13,7 +11,7 @@ public class BeatScroller : MonoBehaviour
     {
         beatTempo = beatTempo / 60;
     }
-    
+
     void Update()
     {
         if (!hasStarted)
