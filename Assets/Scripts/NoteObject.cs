@@ -6,6 +6,8 @@ public class NoteObject : MonoBehaviour
 
     public KeyCode keyToPress;
 
+    private bool missed = false;
+
     public GameObject hitEffect, goodEffect, PerfectEffect, missEffect;
 
     // Start is called before the first frame update
@@ -22,28 +24,38 @@ public class NoteObject : MonoBehaviour
             if (canBePressed)
             {
                 gameObject.SetActive(false);
-
-                // GameManager.instance.NoteHit();
+             
+                
 
                 if (Mathf.Abs(transform.position.y) > 0.25)
                 {
                     Debug.Log("Hit");
                     GameManager.instance.NormalHit();
                     Instantiate(hitEffect, transform.position, hitEffect.transform.rotation);
+                    
                 }
                 else if (Mathf.Abs(transform.position.y) > 0.05f)
                 {
                     Debug.Log("Good");
                     GameManager.instance.GoodHit();
                     Instantiate(goodEffect, transform.position, goodEffect.transform.rotation);
+                   
                 }
+
                 else
                 {
                     Debug.Log("Perfect");
                     GameManager.instance.PerfectHit();
                     Instantiate(PerfectEffect, transform.position, PerfectEffect.transform.rotation);
+                    
                 }
             }
+        }
+
+
+        if(transform.position.y < -0.3)
+        {
+            finishedObject();
         }
     }
 
@@ -53,16 +65,17 @@ public class NoteObject : MonoBehaviour
         {
             canBePressed = true;
         }
+        
      }
 
-   private void OnTriggerExit2D(Collider2D other)
+    void finishedObject()
     {
-        if (other.tag == "Activator")
-        {
-            canBePressed = false;
+        canBePressed = false;
 
             GameManager.instance.NoteMissed();
             Instantiate(missEffect, transform.position, missEffect.transform.rotation);
-        }
+        Destroy(gameObject);
     }
+
+
 }

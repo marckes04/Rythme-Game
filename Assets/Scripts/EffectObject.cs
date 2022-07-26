@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EffectObject : MonoBehaviour
 {
-    public float lifeTime = 1f;
+  public float lifeTime = 1f;
 
 
     void Start()
@@ -15,6 +15,8 @@ public class EffectObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DestroyObject(gameObject, lifeTime);
+        //DestroyObject(gameObject, lifeTime);
+        Object.Destroy(gameObject,lifeTime);
+
     }
 }
